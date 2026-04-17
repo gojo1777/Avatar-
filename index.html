@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Avatar - Sinhala Dubbed | LakVision</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #e53e3e;
+      --red-dark: #c53030;
+      --bg: #0f0f0f;
+      --bg2: #1a1a1a;
+      --bg3: #242424;
+      --border: rgba(255,255,255,0.08);
+      --border2: rgba(255,255,255,0.15);
+      --text: #f0f0f0;
+      --text2: #a0a0a0;
+      --text3: #6b6b6b;
+      --radius: 8px;
+      --radius-lg: 12px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--bg2);
+      border-bottom: 0.5px solid var(--border);
+      padding: 0 1.25rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      background: var(--red);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-icon svg { width: 18px; height: 18px; fill: white; }
+    .logo-text { font-size: 16px; font-weight: 600; color: var(--text); }
+    .logo-badge {
+      background: var(--red);
+      color: white;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 999px;
+      letter-spacing: 0.03em;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ep-count {
+      font-size: 12px;
+      color: var(--text2);
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(180deg, #1a0a0a 0%, var(--bg) 100%);
+      padding: 2rem 1.25rem 1.5rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .hero h1 {
+      font-size: clamp(22px, 5vw, 32px);
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+    .hero p {
+      font-size: 14px;
+      color: var(--text2);
+      margin-bottom: 1.25rem;
+    }
+    .hero-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .meta-pill {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--bg3);
+      border: 0.5px solid var(--border);
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 12px;
+      color: var(--text2);
+    }
+    .meta-pill.red { background: rgba(229,62,62,0.15); border-color: rgba(229,62,62,0.3); color: #fc8181; }
+
+    /* CONTROLS */
+    .controls {
+      padding: 1rem 1.25rem;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      border-bottom: 0.5px solid var(--border);
+      background: var(--bg2);
+      position: sticky;
+      top: 56px;
+      z-index: 40;
+    }
+    .search-wrap {
+      flex: 1;
+      min-width: 180px;
+      position: relative;
+    }
+    .search-wrap svg {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: var(--text3);
+      stroke-width: 2;
+    }
+    .search-wrap input {
+      width: 100%;
+      padding: 8px 10px 8px 32px;
+      background: var(--bg3);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .search-wrap input:focus { border-color: var(--border2); }
+    .search-wrap input::placeholder { color: var(--text3); }
+
+    .filter-group { display: flex; gap: 6px; flex-wrap: wrap; }
+    .filter-btn {
+      padding: 5px 14px;
+      border-radius: 999px;
+      border: 0.5px solid var(--border);
+      background: transparent;
+      font-size: 12px;
+      cursor: pointer;
+      color: var(--text2);
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+    .filter-btn:hover { border-color: var(--border2); color: var(--text); }
+    .filter-btn.active { background: var(--red); border-color: var(--red); color: white; }
+
+    /* SORT */
+    .sort-select {
+      padding: 6px 10px;
+      background: var(--bg3);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text2);
+      font-size: 12px;
+      cursor: pointer;
+      outline: none;
+      font-family: inherit;
+    }
+
+    /* GRID */
+    .section-label {
+      padding: 1rem 1.25rem 0.5rem;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .ep-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+      padding: 0 1.25rem 1.5rem;
+    }
+    .ep-card {
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.15s, transform 0.1s;
+    }
+    .ep-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+    .ep-thumb {
+      background: var(--bg3);
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .ep-thumb-num {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--border2);
+    }
+    .ep-play-icon {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0);
+      transition: background 0.15s;
+    }
+    .ep-card:hover .ep-play-icon { background: rgba(0,0,0,0.4); }
+    .ep-play-icon svg { width: 32px; height: 32px; fill: white; opacity: 0; transition: opacity 0.15s; }
+    .ep-card:hover .ep-play-icon svg { opacity: 1; }
+    .ep-info { padding: 10px 10px 8px; }
+    .ep-label { font-size: 10px; color: var(--text3); margin-bottom: 3px; }
+    .ep-title-text { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 8px; line-height: 1.3; }
+    .ep-btns { display: flex; gap: 6px; }
+    .btn-watch {
+      flex: 1;
+      padding: 6px 8px;
+      background: var(--red);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s;
+    }
+    .btn-watch:hover { background: var(--red-dark); }
+    .btn-dl {
+      padding: 6px 8px;
+      border: 0.5px solid var(--border);
+      border-radius: 6px;
+      background: transparent;
+      color: var(--text2);
+      font-size: 12px;
+      cursor: pointer;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-dl:hover { border-color: var(--border2); color: var(--text); }
+    .btn-dl svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+    .no-results {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text3);
+      font-size: 14px;
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 200;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0;
+    }
+    @media (min-width: 600px) {
+      .modal-overlay { align-items: center; padding: 1rem; }
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      width: 100%;
+      max-width: 620px;
+      max-height: 92vh;
+      overflow-y: auto;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      animation: slideUp 0.2s ease;
+    }
+    @media (min-width: 600px) {
+      .modal { border-radius: var(--radius-lg); animation: fadeIn 0.15s ease; }
+    }
+    @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+
+    .modal-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 0.5px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      z-index: 10;
+    }
+    .modal-title { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.4; }
+    .modal-subtitle { font-size: 12px; color: var(--text2); margin-top: 2px; }
+    .modal-close {
+      background: var(--bg3);
+      border: 0.5px solid var(--border);
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      color: var(--text2);
+      font-size: 16px;
+      line-height: 1;
+      transition: background 0.15s;
+    }
+    .modal-close:hover { background: var(--border); color: var(--text); }
+
+    .modal-body { padding: 1rem 1.25rem; }
+
+    .video-wrap {
+      background: #000;
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      padding-top: 56.25%;
+      margin-bottom: 1rem;
+    }
+    .video-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .video-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--text3);
+      font-size: 13px;
+    }
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--border);
+      border-top-color: var(--red);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* DOWNLOAD SECTION */
+    .dl-section { margin-top: 0.5rem; }
+    .dl-heading {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+    .dl-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg3);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.15s;
+    }
+    .dl-card:hover { border-color: var(--border2); }
+    .dl-icon-wrap {
+      width: 36px;
+      height: 36px;
+      background: rgba(66,133,244,0.15);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .dl-icon-wrap svg { width: 20px; height: 20px; }
+    .dl-info { flex: 1; min-width: 0; }
+    .dl-info strong { display: block; font-size: 13px; font-weight: 500; }
+    .dl-info span { font-size: 11px; color: var(--text2); }
+    .dl-arrow { color: var(--text3); font-size: 16px; }
+    .dl-loading { display: flex; align-items: center; gap: 10px; padding: 12px 0; color: var(--text2); font-size: 13px; }
+    .dl-error { font-size: 13px; color: var(--text3); padding: 10px 0; }
+
+    /* NAV BTNS in modal */
+    .modal-nav { display: flex; gap: 8px; margin-top: 1rem; }
+    .nav-btn {
+      flex: 1;
+      padding: 8px;
+      background: var(--bg3);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text2);
+      font-size: 12px;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: center;
+      transition: all 0.15s;
+    }
+    .nav-btn:hover:not(:disabled) { border-color: var(--border2); color: var(--text); }
+    .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 12px;
+      color: var(--text3);
+      border-top: 0.5px solid var(--border);
+      margin-top: 1rem;
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="#">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    </div>
+    <span class="logo-text">LakVision</span>
+    <span class="logo-badge">Avatar</span>
+  </a>
+  <div class="header-right">
+    <span class="ep-count" id="epCountLabel">48 episodes</span>
+  </div>
+</header>
+
+<div class="hero">
+  <h1>Avatar — Sinhala Dubbed</h1>
+  <p>Watch all episodes dubbed in Sinhala. HD quality, free.</p>
+  <div class="hero-meta">
+    <span class="meta-pill red">● Live</span>
+    <span class="meta-pill">48 Episodes</span>
+    <span class="meta-pill">Sinhala</span>
+    <span class="meta-pill">HD</span>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="search-wrap">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="searchInput" placeholder="Search episode..." oninput="renderGrid()" />
+  </div>
+  <div class="filter-group" id="filterGroup">
+    <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+    <button class="filter-btn" onclick="setFilter('1-12',this)">1–12</button>
+    <button class="filter-btn" onclick="setFilter('13-24',this)">13–24</button>
+    <button class="filter-btn" onclick="setFilter('25-36',this)">25–36</button>
+    <button class="filter-btn" onclick="setFilter('37-48',this)">37–48</button>
+  </div>
+  <select class="sort-select" id="sortSelect" onchange="renderGrid()">
+    <option value="desc">Newest first</option>
+    <option value="asc">Oldest first</option>
+  </select>
+</div>
+
+<div class="section-label" id="sectionLabel">All Episodes</div>
+<div class="ep-grid" id="epGrid"></div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modalTitle">Avatar</div>
+        <div class="modal-subtitle" id="modalSub">Sinhala Dubbed</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="video-wrap" id="videoWrap">
+        <div class="video-loading" id="videoLoading">
+          <div class="spinner"></div>
+          <span>Loading episode...</span>
+        </div>
+        <iframe id="modalIframe" allowfullscreen allow="autoplay" style="opacity:0;" onload="onIframeLoad()"></iframe>
+      </div>
+      <div class="dl-section">
+        <div class="dl-heading">Download</div>
+        <div id="dlArea"><div class="dl-loading"><div class="spinner"></div> Fetching download link...</div></div>
+      </div>
+      <div class="modal-nav">
+        <button class="nav-btn" id="prevBtn" onclick="navEp(-1)">&#8592; Previous</button>
+        <button class="nav-btn" id="nextBtn" onclick="navEp(1)">Next &#8594;</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  LakVision Avatar &mdash; Sinhala Dubbed &copy; 2025. Content from lakvisiontv.net
+</footer>
+
+<script>
+const API = 'https://lakvision-tv.vercel.app/api';
+
+const EPISODES = [
+  {id:'231752',ep:48},{id:'231656',ep:47},{id:'231624',ep:46},{id:'231558',ep:45},
+  {id:'231453',ep:44},{id:'231401',ep:43},{id:'231348',ep:42},{id:'231237',ep:41},
+  {id:'231132',ep:40},{id:'231100',ep:39},{id:'231008',ep:38},{id:'230943',ep:37},
+  {id:'230890',ep:36},{id:'230880',ep:35},{id:'230835',ep:34},{id:'230804',ep:33},
+  {id:'230744',ep:32},{id:'230691',ep:31},{id:'230628',ep:30},{id:'230568',ep:29},
+  {id:'230492',ep:28},{id:'230452',ep:27},{id:'230325',ep:26},{id:'230307',ep:25},
+  {id:'230274',ep:24},{id:'230209',ep:23},{id:'230174',ep:22},{id:'230115',ep:21},
+  {id:'230071',ep:20},{id:'230023',ep:19},{id:'229965',ep:18},{id:'229903',ep:17},
+  {id:'229892',ep:16},{id:'229846',ep:15},{id:'229794',ep:14},{id:'229744',ep:13},
+  {id:'229676',ep:11},{id:'229449',ep:7},{id:'229371',ep:6},{id:'229309',ep:5},
+  {id:'229261',ep:4},{id:'229210',ep:3},{id:'229189',ep:2},{id:'229176',ep:1}
+];
+
+let currentFilter = 'all';
+let cache = {};
+let currentIdx = -1;
+let filteredList = [];
+
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGrid();
+}
+
+function getFiltered() {
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const sort = document.getElementById('sortSelect').value;
+  let list = EPISODES.filter(e => {
+    if (currentFilter !== 'all') {
+      const [a,b] = currentFilter.split('-').map(Number);
+      if (e.ep < a || e.ep > b) return false;
+    }
+    if (q) {
+      const match = ('episode ' + e.ep).includes(q) || ('ep' + e.ep).includes(q) || String(e.ep).includes(q);
+      if (!match) return false;
+    }
+    return true;
+  });
+  if (sort === 'asc') list = [...list].reverse();
+  return list;
+}
+
+function renderGrid() {
+  filteredList = getFiltered();
+  const grid = document.getElementById('epGrid');
+  const label = document.getElementById('sectionLabel');
+  const countLabel = document.getElementById('epCountLabel');
+  label.textContent = filteredList.length + ' episode' + (filteredList.length !== 1 ? 's' : '');
+  countLabel.textContent = EPISODES.length + ' episodes';
+
+  if (filteredList.length === 0) {
+    grid.innerHTML = '<div class="no-results">No episodes found</div>';
+    return;
+  }
+
+  grid.innerHTML = filteredList.map((e, i) => `
+    <div class="ep-card" onclick="openEp(${i})">
+      <div class="ep-thumb">
+        <div class="ep-thumb-num">${String(e.ep).padStart(2,'0')}</div>
+        <div class="ep-play-icon">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+      </div>
+      <div class="ep-info">
+        <div class="ep-label">Episode ${e.ep}</div>
+        <div class="ep-title-text">Avatar<br>Sinhala Dubbed</div>
+        <div class="ep-btns">
+          <button class="btn-watch" onclick="event.stopPropagation(); openEp(${i})">&#9654; Watch</button>
+          <button class="btn-dl" onclick="event.stopPropagation(); openEpDl(${i})" title="Download">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openEp(idx, dlOnly) {
+  currentIdx = idx;
+  const ep = filteredList[idx];
+  document.getElementById('modalTitle').textContent = 'Avatar · Episode ' + ep.ep;
+  document.getElementById('modalSub').textContent = 'Sinhala Dubbed';
+  document.getElementById('modalIframe').style.opacity = 0;
+  document.getElementById('videoLoading').style.display = 'flex';
+  document.getElementById('dlArea').innerHTML = '<div class="dl-loading"><div class="spinner"></div> Fetching link...</div>';
+  document.getElementById('prevBtn').disabled = idx === 0;
+  document.getElementById('nextBtn').disabled = idx === filteredList.length - 1;
+
+  const embedUrl = `https://lakvisiontv.net/embed.php?id=${ep.id}&autoplay=0`;
+  document.getElementById('modalIframe').src = embedUrl;
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  fetchDlLink(ep.id);
+}
+
+function openEpDl(idx) {
+  openEp(idx, true);
+}
+
+function onIframeLoad() {
+  document.getElementById('modalIframe').style.opacity = 1;
+  document.getElementById('videoLoading').style.display = 'none';
+}
+
+async function fetchDlLink(id) {
+  if (cache[id]) {
+    renderDl(cache[id]);
+    return;
+  }
+  try {
+    const res = await fetch(`${API}?action=watch&id=${id}`);
+    const data = await res.json();
+    cache[id] = data;
+    renderDl(data);
+  } catch(e) {
+    document.getElementById('dlArea').innerHTML = '<div class="dl-error">Could not fetch download link.</div>';
+  }
+}
+
+function renderDl(data) {
+  const urls = data.video_urls || [];
+  const gd = urls.find(v => v.url && v.url.includes('drive.google.com'));
+  if (!gd) {
+    document.getElementById('dlArea').innerHTML = '<div class="dl-error">No download link available for this episode.</div>';
+    return;
+  }
+  const previewUrl = gd.url;
+  const match = previewUrl.match(/\/d\/([a-zA-Z0-9_-]+)\//);
+  const dlUrl = match ? `https://drive.google.com/uc?export=download&id=${match[1]}` : previewUrl;
+  const fileId = match ? match[1] : '';
+
+  document.getElementById('dlArea').innerHTML = `
+    <a class="dl-card" href="${dlUrl}" target="_blank" rel="noopener">
+      <div class="dl-icon-wrap">
+        <svg viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg">
+          <path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/>
+          <path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z" fill="#00ac47"/>
+          <path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/>
+          <path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/>
+          <path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/>
+          <path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 27h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/>
+        </svg>
+      </div>
+      <div class="dl-info">
+        <strong>Download from Google Drive</strong>
+        <span>${fileId ? 'File ID: ' + fileId.substring(0,16) + '...' : 'Click to download'}</span>
+      </div>
+      <span class="dl-arrow">&#8599;</span>
+    </a>
+  `;
+}
+
+function navEp(dir) {
+  const newIdx = currentIdx + dir;
+  if (newIdx >= 0 && newIdx < filteredList.length) {
+    openEp(newIdx);
+  }
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.getElementById('modalIframe').src = '';
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+  if (document.getElementById('modalOverlay').classList.contains('open')) {
+    if (e.key === 'ArrowLeft') navEp(-1);
+    if (e.key === 'ArrowRight') navEp(1);
+  }
+});
+
+renderGrid();
+</script>
+</body>
+</html>
